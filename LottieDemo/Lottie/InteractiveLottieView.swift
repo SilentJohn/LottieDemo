@@ -13,7 +13,7 @@ struct InteractiveLottieView: UIViewRepresentable {
     var name: String
     var range: ClosedRange<AnimationFrameTime>
     
-    @Binding var progress: CGFloat
+    @Binding var progress: CGFloat?
     @Binding var complete: Bool
     
     let animationView: AnimationView = {
@@ -37,9 +37,25 @@ struct InteractiveLottieView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<InteractiveLottieView>) {
+        guard let progress = progress else {
+            return
+        }
+        let animationView = context.coordinator.parent.animationView
         animationView.currentFrame = progress * range.lowerBound.distance(to: range.upperBound) + range.lowerBound
         if complete {
             animationView.play()
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        .init(parent: self)
+    }
+    
+    struct Coordinator {
+        var parent: InteractiveLottieView
+        
+        init(parent: InteractiveLottieView) {
+            self.parent = parent
         }
     }
 }

@@ -19,6 +19,7 @@ struct DownloadView: View {
             InteractiveLottieView(name: "lottie-demo-progress", range: ProgressKeyFrames.start.rawValue...ProgressKeyFrames.end.rawValue, progress: $viewModel.progress, complete: $viewModel.completed)
             Spacer()
             Button("Start Downloading") {
+                inProgress.toggle()
                 viewModel.download(urlString: "http://cachefly.cachefly.net/100mb.test")
             }
             .padding(.horizontal, 40.0)

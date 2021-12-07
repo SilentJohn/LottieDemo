@@ -10,7 +10,7 @@ import SwiftUI
 
 class DemoViewModel: NSObject, ObservableObject {
     
-    @Published var progress: CGFloat = 0
+    @Published var progress: CGFloat? = nil
     @Published var completed: Bool = false
     
     func download(urlString: String) {
